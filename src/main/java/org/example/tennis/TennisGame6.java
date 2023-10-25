@@ -40,7 +40,7 @@ public class TennisGame6 implements TennisGame {
                     tieScore = "Thirty-All";
                     break;
                 default:
-                    tieScore = "org.example.tennis.Deuce";
+                    tieScore = "Deuce";
                     break;
             }
 
@@ -82,6 +82,7 @@ public class TennisGame6 implements TennisGame {
                 case 1 -> "Fifteen";
                 case 2 -> "Thirty";
                 default -> "Forty";
+
             };
 
             regularScore = score1 + "-" + score2;
