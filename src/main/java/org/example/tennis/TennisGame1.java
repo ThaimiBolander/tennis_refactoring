@@ -2,8 +2,8 @@ package org.example.tennis;
 
 public class TennisGame1 implements TennisGame {
     
-    private int m_score1 = 0;
-    private int m_score2 = 0;
+    private int player1Score = 0;
+    private int player2Score = 0;
     private String player1Name;
     private String player2Name;
 
@@ -14,64 +14,55 @@ public class TennisGame1 implements TennisGame {
 
     public void wonPoint(String playerName) {
         if (playerName == "player1")
-            m_score1 += 1;
+            player1Score += 1;
         else
-            m_score2 += 1;
+            player2Score += 1;
     }
 
     public String getScore() {
         String score = "";
         int tempScore=0;
-        if (m_score1==m_score2)
+        if (player1Score == player2Score)
         {
-            switch (m_score1)
-            {
-                case 0:
-                        score = "Love-All";
-                    break;
-                case 1:
-                        score = "Fifteen-All";
-                    break;
-                case 2:
-                        score = "Thirty-All";
-                    break;
-                default:
-                        score = "org.example.tennis.Deuce";
-                    break;
-                
-            }
+            score = equalScore();
         }
-        else if (m_score1>=4 || m_score2>=4)
+        else if (player1Score >=4 || player2Score >=4)
         {
-            int minusResult = m_score1-m_score2;
-            if (minusResult==1) score ="Advantage player1";
-            else if (minusResult ==-1) score ="Advantage player2";
-            else if (minusResult>=2) score = "Win for player1";
-            else score ="Win for player2";
+            score = advantageOrWinScore();
         }
         else
         {
             for (int i=1; i<3; i++)
             {
-                if (i==1) tempScore = m_score1;
-                else { score+="-"; tempScore = m_score2;}
-                switch(tempScore)
-                {
-                    case 0:
-                        score+="Love";
-                        break;
-                    case 1:
-                        score+="Fifteen";
-                        break;
-                    case 2:
-                        score+="Thirty";
-                        break;
-                    case 3:
-                        score+="Forty";
-                        break;
+                if (i==1) tempScore = player1Score;
+                else { score+="-"; tempScore = player2Score;}
+                switch (tempScore) {
+                    case 0 -> score += "Love";
+                    case 1 -> score += "Fifteen";
+                    case 2 -> score += "Thirty";
+                    case 3 -> score += "Forty";
                 }
             }
         }
         return score;
+    }
+
+    private String advantageOrWinScore() {
+        int scoreDifference = player1Score - player2Score;
+        return switch (scoreDifference) {
+            case 1 -> "Advantage player1";
+            case -1 -> "Advantage player2";
+            case 2, 3, 4 -> "Win for player1";
+            default -> "Win for player2";
+        };
+    }
+
+    private String equalScore() {
+        return switch (player1Score) {
+            case 0 -> "Love-All";
+            case 1 -> "Fifteen-All";
+            case 2 -> "Thirty-All";
+            default -> "org.example.tennis.Deuce";
+        };
     }
 }
